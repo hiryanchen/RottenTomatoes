@@ -9,6 +9,7 @@
 #import "MovieViewController.h"
 #import "MovieCell.h"
 #import "UIImageView+AFNetworking.h"
+#import "MovieDetailViewController.h"
 
 @interface MovieViewController ()
 
@@ -74,11 +75,16 @@
     cell.movieTitleLabel.text = movie[@"title"];
     cell.synopsisLabel.text = movie[@"synopsis"];
 
-    NSString *imageUrl = movie[@"posters"][@"thumbnail"];
+    NSString *imageUrl = movie[@"posters"][@"profile"];
     NSURL *url = [NSURL URLWithString:imageUrl];
     [cell.posterView setImageWithURL:url];
     
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSDictionary *movie = self.movies[indexPath.row];
+    [self.navigationController pushViewController:[[MovieDetailViewController alloc] initWithMovie:movie] animated:YES];
 }
 
 @end
