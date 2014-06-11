@@ -10,4 +10,6 @@
 
 @interface MovieViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
+- (id)initWithListName:(NSString *)listName;
+
 @end

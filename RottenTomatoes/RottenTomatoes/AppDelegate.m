@@ -15,16 +15,12 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    // Create the tab bar controller
-    UITabBarController *tabBarController = [[UITabBarController alloc] init];
-    
-    self.window.rootViewController = tabBarController;
-    
-    MovieViewController *vc = [[MovieViewController alloc] init];
+    MovieViewController *vc1 = [[MovieViewController alloc] initWithListName:@"movies/box_office"];
+    MovieViewController *vc2 = [[MovieViewController alloc] initWithListName:@"dvds/top_rentals"];
     
     // Create the two view controllers, each within a navigation controller
-    UINavigationController *secondNavigationController = [[UINavigationController alloc] initWithRootViewController:vc];
-    UINavigationController *firstNavigationController = [[UINavigationController alloc] initWithRootViewController:vc];
+    UINavigationController *secondNavigationController = [[UINavigationController alloc] initWithRootViewController:vc2];
+    UINavigationController *firstNavigationController = [[UINavigationController alloc] initWithRootViewController:vc1];
 
     // Configure the titles and images of the tab bar items
     firstNavigationController.tabBarItem.title = @"Box Office";
@@ -33,9 +29,9 @@
     secondNavigationController.tabBarItem.title = @"DVDs";
     secondNavigationController.tabBarItem.image = [UIImage imageNamed:@"Martini"];
     
+    // Create the tab bar controller
+    UITabBarController *tabBarController = [[UITabBarController alloc] init];
     tabBarController.viewControllers = @[firstNavigationController, secondNavigationController];
-    
-    //UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:vc];
     self.window.rootViewController = tabBarController;
 
     self.window.backgroundColor = [UIColor whiteColor];

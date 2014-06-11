@@ -14,10 +14,16 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSArray *movies;
+@property (weak, nonatomic) NSString *listName;
 
 @end
 
 @implementation MovieViewController
+
+- (id)initWithListName:(NSString *)listName {
+    self.listName = listName;
+    return [super init];
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -34,7 +40,7 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
-    NSString *url = @"http://api.rottentomatoes.com/api/public/v1.0/lists/dvds/top_rentals.json?apikey=35mmh3jkfjea6da5fvmaje92";
+    NSString *url = [NSString stringWithFormat:@"http://api.rottentomatoes.com/api/public/v1.0/lists/%@.json?apikey=35mmh3jkfjea6da5fvmaje92", self.listName];
     
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
