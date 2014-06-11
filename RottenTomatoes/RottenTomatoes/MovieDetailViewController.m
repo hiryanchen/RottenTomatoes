@@ -12,7 +12,7 @@
 @interface MovieDetailViewController ()
 
 @property (weak, nonatomic) IBOutlet UIImageView *posterView;
-@property (weak, nonatomic) IBOutlet UILabel *synopsisLabel;
+@property (weak, nonatomic) IBOutlet UILabel *synopsisLabel2;
 @property (weak, nonatomic) NSDictionary *movie;
 
 @end
@@ -37,7 +37,7 @@
 {
     [super viewDidLoad];
     
-    self.synopsisLabel.text = self.movie[@"synopsis"];
+    self.synopsisLabel2.text = self.movie[@"synopsis"];
 
     NSString *imageUrl = self.movie[@"posters"][@"original"];
     NSURL *url = [NSURL URLWithString:imageUrl];
