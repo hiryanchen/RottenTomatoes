@@ -17,8 +17,10 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSArray *movies;
 @property (weak, nonatomic) NSString *listName;
+@property (weak, nonatomic) IBOutlet UIView *errorView;
 
 @property (nonatomic, strong) MBProgressHUD *hud;
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
 
 @end
 
@@ -55,23 +57,41 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
-    // Show Loading indicator
+    // Hide error view and show Loading indicator
+    [self.errorView setHidden:YES];
     [self showHUD];
 
+    // Set up the table view
+    [self.tableView registerNib:[UINib nibWithNibName:@"MovieCell" bundle:nil] forCellReuseIdentifier:@"MovieCell"];
+    self.tableView.rowHeight = 150;
+    
+    // Fetch the movies
+    [self refreshMoviesList];
+    
+    // Add Refresh ability to the table view
+    UITableViewController *tableViewController = [[UITableViewController alloc] init];
+    tableViewController.tableView = self.tableView;
+    
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(refreshMoviesList) forControlEvents:UIControlEventValueChanged];
+    tableViewController.refreshControl = self.refreshControl;
+}
+
+- (void)refreshMoviesList
+{
     NSString *url = [NSString stringWithFormat:@"http://api.rottentomatoes.com/api/public/v1.0/lists/%@.json?apikey=35mmh3jkfjea6da5fvmaje92", self.listName];
     
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-        id object = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-        self.movies = object[@"movies"];
-        
-        [self.tableView reloadData];
+        if (connectionError) {
+            [self.errorView setHidden:NO];
+        } else {
+            id object = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+            self.movies = object[@"movies"];
+            [self.tableView reloadData];
+        }
         [self hideHUD];
     }];
-    
-    [self.tableView registerNib:[UINib nibWithNibName:@"MovieCell" bundle:nil] forCellReuseIdentifier:@"MovieCell"];
-    
-    self.tableView.rowHeight = 150;
 }
 
 - (void)didReceiveMemoryWarning
@@ -82,7 +102,8 @@
 
 #pragma mark - Table view methods
 
-- (int)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (int)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
     return self.movies.count;
 }
 
