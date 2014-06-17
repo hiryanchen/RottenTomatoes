@@ -17,4 +17,4 @@ Optional:
 
 * Tab bar to switch between Box office and top DVD rentals.
 
-![Video Walkthrough](RottenTomatoes.gif)
+![Video Walkthrough](RT2.gif)
