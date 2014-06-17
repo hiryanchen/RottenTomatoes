@@ -14,4 +14,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *synopsisLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *posterView;
 
+- (void)setMovie:(NSDictionary *)movie;
+
 @end
