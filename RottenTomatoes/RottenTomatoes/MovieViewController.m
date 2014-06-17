@@ -18,6 +18,7 @@
 @property (nonatomic, strong) NSArray *movies;
 @property (weak, nonatomic) NSString *listName;
 @property (weak, nonatomic) IBOutlet UIView *errorView;
+@property (weak, nonatomic) IBOutlet UIImageView *networkErrorImage;
 
 @property (nonatomic, strong) MBProgressHUD *hud;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
@@ -90,7 +91,10 @@
             self.movies = object[@"movies"];
             [self.tableView reloadData];
         }
+        
+        // Hide loading and the refresh control
         [self hideHUD];
+        [self.refreshControl endRefreshing];
     }];
 }
 

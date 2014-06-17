@@ -7,6 +7,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MovieViewController">
             <connections>
                 <outlet property="errorView" destination="fxs-mF-ClD" id="SN4-fY-xbl"/>
+                <outlet property="networkErrorImage" destination="B9S-2x-72X" id="0j7-Dv-UX9"/>
                 <outlet property="tableView" destination="IBu-rm-tAR" id="D4F-OS-Tyr"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
@@ -32,6 +33,10 @@
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="B9S-2x-72X">
+                            <rect key="frame" x="72" y="7" width="27" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </imageView>
                     </subviews>
                     <color key="backgroundColor" red="0.61192255434782616" green="0.61192255434782616" blue="0.61192255434782616" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
