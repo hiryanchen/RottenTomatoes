@@ -10,12 +10,15 @@
 #import "MovieCell.h"
 #import "UIImageView+AFNetworking.h"
 #import "MovieDetailViewController.h"
+#import "MBProgressHUD.h"
 
 @interface MovieViewController ()
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSArray *movies;
 @property (weak, nonatomic) NSString *listName;
+
+@property (nonatomic, strong) MBProgressHUD *hud;
 
 @end
 
@@ -35,12 +38,26 @@
     return self;
 }
 
+- (void)showHUD
+{
+    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.hud.labelText = @"Loading";
+}
+
+- (void)hideHUD
+{
+    [self.hud hide:YES];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
+    // Show Loading indicator
+    [self showHUD];
+
     NSString *url = [NSString stringWithFormat:@"http://api.rottentomatoes.com/api/public/v1.0/lists/%@.json?apikey=35mmh3jkfjea6da5fvmaje92", self.listName];
     
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
@@ -49,6 +66,7 @@
         self.movies = object[@"movies"];
         
         [self.tableView reloadData];
+        [self hideHUD];
     }];
     
     [self.tableView registerNib:[UINib nibWithNibName:@"MovieCell" bundle:nil] forCellReuseIdentifier:@"MovieCell"];
